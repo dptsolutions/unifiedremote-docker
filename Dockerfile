@@ -13,8 +13,11 @@ RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
 	apt-get install -y curl
 
-#Copy scripts into container
+#Copy scripts and env vars into container
 COPY etc/ /etc
+
+#Make startup scripts executable
+RUN chmod +x /etc/my_init.d/*.sh
 		
 EXPOSE 9510/tcp
 	#
