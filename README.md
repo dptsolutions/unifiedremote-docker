@@ -1,2 +1,2 @@
 # unifiedremote-docker
-Unified Remote running in a Docker container
+[Unified Remote](https://www.unifiedremote.com/) running in a Docker container
