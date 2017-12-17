@@ -12,9 +12,7 @@ LABEL description="Unified Remote Server"
 RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
 	apt-get install -y libbluetooth3 \
-	
 	&& \
-	
 	#Create mount point for configuration data
 	mkdir /config
 
