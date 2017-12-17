@@ -8,10 +8,15 @@ LABEL description="Unified Remote Server"
 
 
 
-#Update Ubuntu, and install curl
+#Update Ubuntu, and install libbluetooth3 (dependency)
 RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-	apt-get install -y curl libbluetooth3
+	apt-get install -y libbluetooth3 \
+	
+	&& \
+	
+	#Create mount point for configuration data
+	mkdir /config
 
 #Copy scripts and env vars into container
 COPY etc/ /etc
@@ -19,7 +24,11 @@ COPY etc/ /etc
 #Make startup scripts executable
 RUN chmod +x /etc/my_init.d/*.sh
 		
+#TODO, what other ports are required for the clients to connect?
 EXPOSE 9510/tcp
+
+#Mount config volume
+VOLUME /config
 	#
 
 # Clean up APT when done.
