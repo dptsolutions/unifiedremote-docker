@@ -23,8 +23,8 @@ COPY etc/ /etc
 #Make startup scripts executable
 RUN chmod +x /etc/my_init.d/*.sh
 		
-#TODO, what other ports are required for the clients to connect?
-EXPOSE 9510/tcp
+#9510 is for web, 9512 for wifi connections, 9511 automatic server discovery
+EXPOSE 9510/tcp 9512/tcp 9512/udp 9511/udp
 
 #Mount config volume
 VOLUME /config /remotes
