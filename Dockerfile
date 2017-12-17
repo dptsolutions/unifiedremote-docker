@@ -11,7 +11,7 @@ LABEL description="Unified Remote Server"
 #Update Ubuntu, and install curl
 RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-	apt-get install -y curl
+	apt-get install -y curl libbluetooth3
 
 #Copy scripts and env vars into container
 COPY etc/ /etc
