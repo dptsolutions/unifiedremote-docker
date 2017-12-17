@@ -13,8 +13,9 @@ RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
 	apt-get install -y libbluetooth3 \
 	&& \
-	#Create mount point for configuration data
-	mkdir /config
+	#Create mount points for configuration, remote data
+	mkdir /config && \
+	mkdir /remotes
 
 #Copy scripts and env vars into container
 COPY etc/ /etc
@@ -26,8 +27,7 @@ RUN chmod +x /etc/my_init.d/*.sh
 EXPOSE 9510/tcp
 
 #Mount config volume
-VOLUME /config
-	#
+VOLUME /config /remotes
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
