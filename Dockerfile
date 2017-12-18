@@ -6,6 +6,9 @@ FROM phusion/baseimage:0.9.22
 
 LABEL description="Unified Remote Server"
 
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
 #Update Ubuntu, and install libbluetooth3 (dependency)
 RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
@@ -32,8 +35,9 @@ EXPOSE 9510/tcp 9512/tcp 9512/udp 9511/udp
 #Mount config volume
 VOLUME /config /remotes
 
+#ENV HOME=/config
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+
