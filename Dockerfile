@@ -20,6 +20,9 @@ RUN apt-get update && \
 #Copy scripts and env vars into container
 COPY etc/ /etc
 
+#Copy the starting config file into the config volume
+COPY urserver.config /config
+
 #Make startup scripts executable
 RUN chmod +x /etc/my_init.d/*.sh
 		
