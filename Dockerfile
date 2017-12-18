@@ -35,7 +35,7 @@ EXPOSE 9510/tcp 9512/tcp 9512/udp 9511/udp
 #Mount config volume
 VOLUME /config /remotes
 
-#ENV HOME=/config
+ENV HOME=/config
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
