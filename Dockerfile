@@ -18,7 +18,10 @@ RUN apt-get update && \
 	mkdir /config && \
 	mkdir /remotes && \
 	#Create directory for temporary installation files
-	mkdir /ur
+	mkdir /ur && \
+	# Add user
+    useradd -U -d /config -s /bin/false ur && \
+    usermod -G users ur && \
 
 #Copy scripts and env vars into container
 COPY etc/ /etc
@@ -35,7 +38,8 @@ EXPOSE 9510/tcp 9512/tcp 9512/udp 9511/udp
 #Mount config volume
 VOLUME /config /remotes
 
-ENV HOME=/config
+ENV HOME=/config \
+	CHANGE_CONFIG_DIR_OWNERSHIP="true" 
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
