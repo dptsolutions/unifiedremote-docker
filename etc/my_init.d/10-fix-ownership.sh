@@ -30,7 +30,7 @@ if [ ! -z "${UR_GID}" ]; then
 fi
 
 # Update ownership of dirs we need to write
-if [ "${CHANGE_CONFIG_DIR_OWNERSHIP,,}" = "true" ]; then
-  chown -R ur:ur /config
-  chown -R ur:ur /remotes
-fi
+#if [ "${CHANGE_CONFIG_DIR_OWNERSHIP,,}" = "true" ]; then
+#  chown -R ur:ur /config
+#  chown -R ur:ur /remotes
+#fi
