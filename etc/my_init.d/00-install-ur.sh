@@ -18,5 +18,5 @@ else
 	cp urserver.config /config
 fi
 
-echo Cleaning up temporary installation files
-rm -rf /ur
+#echo Cleaning up temporary installation files
+#rm -rf /ur
