@@ -20,7 +20,7 @@ RUN apt-get update && \
 #Copy scripts and env vars into container
 COPY etc/ /etc
 
-#Copy the starting config file into the config volume
+#Copy the starting config file into the container temp install dir
 COPY urserver.config /ur
 
 #Make startup scripts executable
