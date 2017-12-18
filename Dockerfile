@@ -6,8 +6,6 @@ FROM phusion/baseimage:0.9.22
 
 LABEL description="Unified Remote Server"
 
-
-
 #Update Ubuntu, and install libbluetooth3 (dependency)
 RUN apt-get update && \
 	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
@@ -15,13 +13,15 @@ RUN apt-get update && \
 	&& \
 	#Create mount points for configuration, remote data
 	mkdir /config && \
-	mkdir /remotes
+	mkdir /remotes && \
+	#Create directory for temporary installation files
+	mkdir /ur
 
 #Copy scripts and env vars into container
 COPY etc/ /etc
 
 #Copy the starting config file into the config volume
-COPY urserver.config /config
+COPY urserver.config /ur
 
 #Make startup scripts executable
 RUN chmod +x /etc/my_init.d/*.sh
