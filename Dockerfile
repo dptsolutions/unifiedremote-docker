@@ -21,7 +21,7 @@ RUN apt-get update && \
 	mkdir /ur && \
 	# Add user
     useradd -U -d /config -s /bin/false ur && \
-    usermod -G users ur && \
+    usermod -G users ur
 
 #Copy scripts and env vars into container
 COPY etc/ /etc
