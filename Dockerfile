@@ -2,46 +2,42 @@
 # sure you lock down to a specific version, not to `latest`!
 # See https://github.com/phusion/baseimage-docker/blob/master/Changelog.md for
 # a list of version numbers.
-FROM phusion/baseimage:0.9.22
+FROM lsiobase/alpine:3.7
 
 LABEL description="Unified Remote Server"
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
-
-#Update Ubuntu, and install libbluetooth3 (dependency)
-RUN apt-get update && \
-	apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-	apt-get install -y libbluetooth3 \
+	
+RUN \
+ echo "**** install packages ****" && \
+ apk add --no-cache \
+	curl \
+	bluez-libs \
 	&& \
-	#Create mount points for configuration, remote data
-	mkdir /config && \
-	mkdir /remotes && \
-	#Create directory for temporary installation files
-	mkdir /ur && \
-	# Add user
-    useradd -U -d /config -s /bin/false ur && \
-    usermod -G users ur
+ echo "**** create remotes mountpoint ****" && \
+ mkdir -p \
+	/config \
+	&& \
+ echo "**** install urserver ****" && \
+ mkdir -p \
+	/app/urserver && \
+ curl -o \
+	/tmp/urserver.tar.gz -L \
+	http://www.unifiedremote.com/d/linux-x64-portable && \
+ tar -zxvf /tmp/urserver.tar.gz -C /tmp && \
+ cp -r /tmp/urserver*/ /app/urserver && \
+ echo "**** configure urserver ****" && \
+# cp /app/nzbget/nzbget.conf /defaults/nzbget.conf && \
+# sed -i \
+#	-e "s#\(MainDir=\).*#\1/downloads#g" \
+#	-e "s#\(ScriptDir=\).*#\1$\{MainDir\}/scripts#g" \
+#	-e "s#\(WebDir=\).*#\1$\{AppDir\}/webui#g" \
+#	-e "s#\(ConfigTemplate=\).*#\1$\{AppDir\}/webui/nzbget.conf.template#g" \
+# /defaults/nzbget.conf && \
+ echo "**** cleanup ****" && \
+ rm -rf \
+	/tmp/*
 
-#Copy scripts and env vars into container
-COPY etc/ /etc
-
-#Copy the starting config file into the container temp install dir
-COPY urserver.config /ur
-
-#Make startup scripts executable
-RUN chmod +x /etc/my_init.d/*.sh
-		
 #9510 is for web, 9512 for wifi connections, 9511 automatic server discovery
 EXPOSE 9510/tcp 9512/tcp 9512/udp 9511/udp
 
 #Mount config volume
 VOLUME /config /remotes
-
-ENV HOME=/config \
-	CHANGE_CONFIG_DIR_OWNERSHIP="true" 
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
