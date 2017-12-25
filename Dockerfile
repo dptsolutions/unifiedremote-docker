@@ -1,21 +1,21 @@
-# Use phusion/baseimage as base image. To make your builds reproducible, make
-# sure you lock down to a specific version, not to `latest`!
-# See https://github.com/phusion/baseimage-docker/blob/master/Changelog.md for
-# a list of version numbers.
-FROM lsiobase/alpine:3.7
+# Using LinuxServer.io's Xenial base, even though they say not to.
+# I'll fix it later I guess
+FROM lsiobase/xenial:83
 
 LABEL description="Unified Remote Server"
+
+# environment settings
+ARG DEBIAN_FRONTEND="noninteractive"
+ENV HOME="/config" \
 	
 RUN \
- echo "**** install packages ****" && \
- apk add --no-cache \
-	curl \
-	bluez-libs \
-	&& \
+ echo "**** install packages ****" && \ #libbluetooth3
+  apt-get update && \
+  apt-get install -y \
+	libbluetooth3 && \
  echo "**** create remotes mountpoint ****" && \
  mkdir -p \
-	/config \
-	&& \
+	/remotes && \
  echo "**** install urserver ****" && \
  mkdir -p \
 	/app/urserver && \
@@ -33,8 +33,11 @@ RUN \
 #	-e "s#\(ConfigTemplate=\).*#\1$\{AppDir\}/webui/nzbget.conf.template#g" \
 # /defaults/nzbget.conf && \
  echo "**** cleanup ****" && \
- rm -rf \
-	/tmp/*
+  apt-get clean && \
+  rm -rf \
+	/tmp/* \
+	/var/lib/apt/lists/* \
+	/var/tmp/*
 
 #9510 is for web, 9512 for wifi connections, 9511 automatic server discovery
 EXPOSE 9510/tcp 9512/tcp 9512/udp 9511/udp
