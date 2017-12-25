@@ -6,7 +6,7 @@ LABEL description="Unified Remote Server"
 
 # environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
-ENV HOME="/config" \
+ENV HOME="/config"
 	
 RUN \
  echo "**** install packages ****" && \ #libbluetooth3
