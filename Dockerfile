@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 	
 RUN \
- echo "**** install packages ****" && \ #libbluetooth3
+ echo "**** install packages ****" && \
   apt-get update && \
   apt-get install -y \
 	libbluetooth3 && \
