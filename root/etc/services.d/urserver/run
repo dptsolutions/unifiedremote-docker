@@ -2,4 +2,4 @@
 
 exec \
 	s6-setuidgid abc /app/urserver/urserver \
-	--debug
+	--debug --daemon --pidfile /config/urserver.pid
