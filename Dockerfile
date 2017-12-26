@@ -20,7 +20,6 @@ RUN \
 	/tmp/urserver.tar.gz -L \
 	http://www.unifiedremote.com/d/linux-x64-portable && \
  tar -zxvf /tmp/urserver.tar.gz -C /tmp && \
- cd 
  cp -r /tmp/urserver*/* /app/urserver && \
  echo "**** configure urserver ****" && \
  echo "**** cleanup ****" && \
